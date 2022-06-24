@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseActor
 {
     public bool isDie;
     #region Singleton
@@ -14,7 +14,14 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    // Update is called once per frame
+    private void Start()
+    {
+        base.Start();
+        id = 0;
+
+        
+    }
+
     void Update()
     {
         
