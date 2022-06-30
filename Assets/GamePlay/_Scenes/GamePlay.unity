@@ -672,7 +672,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 438a0d339f058064e90489fdea7c18c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos: []
+  pos:
+  - {fileID: 219370203}
+  - {fileID: 404584007}
+  - {fileID: 1724573686}
+  - {fileID: 161997699}
+  - {fileID: 1442559745}
+  - {fileID: 622872677}
+  - {fileID: 766889626}
+  - {fileID: 1246231140}
+  - {fileID: 1112337939}
+  - {fileID: 636196143}
+  - {fileID: 930600057}
+  - {fileID: 1064929035}
+  - {fileID: 1181328444}
+  - {fileID: 144101551}
+  - {fileID: 399203992}
+  - {fileID: 1584992836}
+  - {fileID: 910411502}
+  - {fileID: 1546959927}
+  - {fileID: 1441182843}
+  - {fileID: 986187801}
+  - {fileID: 1360641396}
+  - {fileID: 693133772}
+  - {fileID: 291213905}
+  - {fileID: 370424642}
+  - {fileID: 998676480}
+  - {fileID: 304583052}
+  - {fileID: 1840402512}
+  - {fileID: 762667726}
+  - {fileID: 431747589}
+  - {fileID: 1867171695}
+  - {fileID: 446161884}
+  - {fileID: 1461621757}
+  - {fileID: 1690579172}
+  - {fileID: 570511535}
+  - {fileID: 1829594558}
+  - {fileID: 261026859}
+  - {fileID: 2007994548}
+  - {fileID: 1478612624}
+  - {fileID: 1702586844}
+  - {fileID: 612719289}
+  - {fileID: 1585743506}
+  - {fileID: 1655665757}
+  - {fileID: 93021893}
+  - {fileID: 1776469943}
+  - {fileID: 1549633153}
+  - {fileID: 1562826549}
+  - {fileID: 584128590}
+  - {fileID: 1284344793}
+  - {fileID: 2031271552}
+  - {fileID: 353874620}
+  - {fileID: 134546329}
+  - {fileID: 301655625}
+  - {fileID: 854050019}
+  - {fileID: 1060162980}
+  - {fileID: 169859287}
+  - {fileID: 2113225534}
+  - {fileID: 129725261}
+  - {fileID: 1586229720}
+  - {fileID: 426497998}
+  - {fileID: 1627380143}
+  - {fileID: 2078836593}
+  - {fileID: 205504280}
+  - {fileID: 1706054801}
+  - {fileID: 814973246}
+  - {fileID: 1695648097}
+  - {fileID: 1303094913}
 --- !u!1 &351391423
 GameObject:
   m_ObjectHideFlags: 0
@@ -3325,6 +3391,12 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 928503690591796133, guid: 6668f6530a2ae3d4a871e07751ae212f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -1388485733357891733, guid: 1d4cbf55fda46064aa016199dc699cf5,
+        type: 3}
     - target: {fileID: 1144203150084006065, guid: 6668f6530a2ae3d4a871e07751ae212f,
         type: 3}
       propertyPath: m_Layer

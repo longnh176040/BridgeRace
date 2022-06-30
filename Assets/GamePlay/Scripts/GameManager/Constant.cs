@@ -11,4 +11,7 @@ public static class Constant
     public const int DEFAULT_LAYER = 0;
     public static string[] PLAYER_LAYER = new string[6] { "Player1", "Player2", "Player3", "Player4", "Player5", "Player6", };
 
+    public const int TOTAL_BRICK_PER_PLAYER = 30;
+    public const float RESPAWN_BRICK_TIME = 3f;
+
 }

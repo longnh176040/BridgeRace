@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public abstract class BaseActor : MonoBehaviour
 {
     internal int id;
 
     public Transform brickContainer;
+    public static UnityAction<int, int> CollectBrick;
 
     protected Stack<Brick> brickStack = new Stack<Brick>();
 
@@ -25,6 +27,8 @@ public abstract class BaseActor : MonoBehaviour
         brick.trans.localEulerAngles = Vector3.zero;
         brick.trans.DOLocalMove(new Vector3(0, (brickStack.Count - 1) * brickHeight, 0), 0.5f);
         brick.trans.DOLocalRotate(new Vector3(0, 360f, 360f), 0.5f, RotateMode.FastBeyond360).SetEase(Ease.Linear);
+
+        CollectBrick(brick.id, brick.orderPos);
     }
 
     public void PopFromStack()

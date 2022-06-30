@@ -26,6 +26,7 @@ public class Brick : MonoBehaviour
             else
             {
                 owner.PushToStack(this);
+                Debug.Log(orderPos + " " + transform.position);
             }
             ImmuneBrick();
         }
