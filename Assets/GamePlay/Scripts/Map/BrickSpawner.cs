@@ -88,7 +88,7 @@ public class BrickSpawner : MonoBehaviour
 
     private IEnumerator IE_RespawnBrick(int brickId, int brickOrder)
     {
-        yield return new WaitForSeconds(Constant.RESPAWN_BRICK_TIME);
+        yield return Yielders.Get(Constant.RESPAWN_BRICK_TIME);
         SpawnBrick(brickId, brickOrder);
         brickCountEachPlayer[brickId]--;
     } 
