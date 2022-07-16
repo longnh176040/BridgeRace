@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 829803640569251264}
   - component: {fileID: 829803640569251265}
   - component: {fileID: 829803640569251266}
+  - component: {fileID: 9131715939392523753}
   m_Layer: 0
   m_Name: Bridge Brick
-  m_TagString: Untagged
+  m_TagString: Bridge Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,3 +94,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9131715939392523753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829803640569251268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d2f7ed3c78d294ab9a1979b02b449a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 829803640569251265}

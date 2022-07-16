@@ -20,6 +20,11 @@ public abstract class BaseActor : MonoBehaviour
         LevelManager.ins.SetupActorDictionary(this);
     }
 
+    public int GetStackNum()
+    {
+        return brickStack.Count;
+    }
+
     public void PushToStack(Brick brick)
     {
         brickStack.Push(brick);
@@ -35,6 +40,7 @@ public abstract class BaseActor : MonoBehaviour
     {
         Brick brick = brickStack.Pop();
         brick.trans.parent = null;
+        ObjectPooling.ins.EnQueueObj(Constant.BRICK_TAG, brick.gameObject);
     }
 
     public void ClearStack()

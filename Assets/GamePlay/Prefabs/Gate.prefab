@@ -117,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545635673615306996}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6434901490825610509}
@@ -262,9 +262,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6434901489161466858}
   - component: {fileID: 6434901489161466861}
+  - component: {fileID: 5709587499596124365}
   m_Layer: 0
   m_Name: Bridge
-  m_TagString: Untagged
+  m_TagString: Bridge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -296,6 +297,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 13, y: 1, z: 1.25}
   m_Center: {x: -7, y: 0, z: 0}
+--- !u!114 &5709587499596124365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6434901489161466859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 425f53607de400a4c82c0901d0096842, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bridgeBrickContainer: {fileID: 8489993022864647320}
 --- !u!1 &6434901489328854339
 GameObject:
   m_ObjectHideFlags: 0

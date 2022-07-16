@@ -21,7 +21,7 @@ public class Brick : MonoBehaviour
         {
             if (owner == null)
             {
-                other.GetComponent<BaseActor>().PushToStack(this);
+                Cache.GetActor(other).PushToStack(this);
             }
             else
             {

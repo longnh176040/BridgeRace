@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : BaseActor
 {
     public bool isDie;
+
     #region Singleton
     public static PlayerController ins;
 
