@@ -40,6 +40,7 @@ public abstract class BaseActor : MonoBehaviour
     {
         Brick brick = brickStack.Pop();
         brick.trans.parent = null;
+        brick.trans.localEulerAngles = Vector3.zero;
         ObjectPooling.ins.EnQueueObj(Constant.BRICK_TAG, brick.gameObject);
     }
 
