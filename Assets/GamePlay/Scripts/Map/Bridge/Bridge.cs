@@ -10,6 +10,7 @@ public class Bridge : MonoBehaviour
     internal int maxBrick = 60;
     internal List<BridgeBrick> bridgeBrickList = new List<BridgeBrick>();
 
+    internal bool isBuilt = false;
     private int currentBrickNum = 0;
 
     private const float BRICK_DISTANCE_Y = 0.1f;

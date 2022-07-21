@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public BaseActor actor;
-    public Animator anim;
     public Rigidbody rb;
     public Transform trans;
     public Transform transRotate;
@@ -17,12 +16,10 @@ public class PlayerMovement : MonoBehaviour
     public float stepHeight = 0.5f;
     public float stepOffset = 2f;
     private Transform lastHitGround;
-    private float limitZPos;
+    private float limitMinZPos = float.MinValue;
+    private float limitMaxZPos;
 
-    private int animState;
-    private string ANIM_ACTION = "Action";
-    private const int IDLE_ANIM = 0;
-    private const int RUN_ANIM = 1;
+
 
     [SerializeField]
     private bool canMove = false;
@@ -31,14 +28,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (joystick.Horizontal != 0 || joystick.Vertical != 0)
         {
-            SetAnim(RUN_ANIM);
+            actor.SetAnim(Constant.RUN_ANIM);
             rb.velocity = new Vector3(joystick.Horizontal * speed, trans.position.y, joystick.Vertical * speed);
             transRotate.localRotation = Quaternion.LookRotation(rb.velocity);
             transRotate.localEulerAngles = new Vector3(0, transRotate.localEulerAngles.y, 0);
         }
         else
         {
-            SetAnim(IDLE_ANIM);
+            actor.SetAnim(Constant.IDLE_ANIM);
             rb.velocity = Vector3.zero;
         }
     }
@@ -49,14 +46,6 @@ public class PlayerMovement : MonoBehaviour
         ClimbBridge();
     }
 
-    private void SetAnim(int state)
-    {
-        if (animState != state)
-        {
-            animState = state;
-            anim.SetInteger(ANIM_ACTION, animState);
-        }
-    }
 
     private void CheckSpawnBridge()
     {
@@ -74,7 +63,18 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else if (b.CheckBuildDone())
                 {
-                    limitZPos = b.targetGround.position.z + b.targetGround.GetComponent<Collider>().bounds.size.z / 2;
+                    if (!b.isBuilt)
+                    {
+                        float targetGroundSize = b.targetGround.GetComponent<Collider>().bounds.size.z / 2;
+                        //limitMaxZPos = b.targetGround.position.z + targetGroundSize;
+                        limitMaxZPos = float.MaxValue;
+                        limitMinZPos = b.targetGround.position.z - targetGroundSize + 0.25f;
+
+                        b.isBuilt = true;
+                        BrickSpawner.ins.DequeueUnuseBrick(actor.id, actor.currentStage);
+                        actor.currentStage++;
+                        BrickSpawner.ins.InitMapWithId(actor.id, actor.currentStage);
+                    }
                 }
             }
         }
@@ -83,25 +83,27 @@ public class PlayerMovement : MonoBehaviour
     private void ClimbBridge()
     {
         RaycastHit hit;
-        if (Physics.Raycast(stepCheck.position, trans.TransformDirection(Vector3.down), out hit, 1f))
+        if (Physics.Raycast(stepCheck.position, trans.TransformDirection(Vector3.down), out hit, 2f))
         {
             if (hit.transform.CompareTag(Constant.BRIDGE_BRICK_TAG))
             {
                 lastHitGround = hit.transform;
-                limitZPos = hit.transform.position.z + hit.collider.bounds.size.z / 2;
+                limitMaxZPos = hit.transform.position.z + hit.collider.bounds.size.z / 2;
                 trans.position += new Vector3(0f, stepOffset * Time.fixedDeltaTime, 0f);
                 Vector3 clampedPos = new Vector3(trans.position.x, 
                     Mathf.Clamp(trans.position.y, hit.transform.position.y-0.5f, hit.transform.position.y),
-                    Mathf.Clamp(trans.position.z, float.MinValue, limitZPos));
+                    Mathf.Clamp(trans.position.z, limitMinZPos, limitMaxZPos));
                 trans.position = clampedPos;
+                //Debug.Log("1");
             }
             else
             {
                 if (lastHitGround == null) return;
                 Vector3 clampedPos = new Vector3(trans.position.x, 
                     Mathf.Clamp(trans.position.y, lastHitGround.position.y - 0.5f, lastHitGround.position.y),
-                    Mathf.Clamp(trans.position.z, float.MinValue, limitZPos));
+                    Mathf.Clamp(trans.position.z, limitMinZPos, limitMaxZPos));
                 trans.position = clampedPos;
+                //Debug.Log("2");
             }
         }
         else
@@ -109,8 +111,9 @@ public class PlayerMovement : MonoBehaviour
             if (lastHitGround == null) return;
             Vector3 clampedPos = new Vector3(trans.position.x, 
                 Mathf.Clamp(trans.position.y, lastHitGround.position.y - 0.5f, lastHitGround.position.y),
-                Mathf.Clamp(trans.position.z, float.MinValue, limitZPos));
+                Mathf.Clamp(trans.position.z, limitMinZPos, limitMaxZPos));
             trans.position = clampedPos;
+            //Debug.Log("3");
         }
     }
 }

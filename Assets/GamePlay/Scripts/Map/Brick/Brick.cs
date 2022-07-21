@@ -13,6 +13,7 @@ public class Brick : MonoBehaviour
 
     internal int id;    //Thể hiện layer của brick // = id của player tương ứng
     internal int orderPos; //Lưu vị trí trong mảng các brick
+    internal int stage; //Lưu vị trí stage mà nó đang nằm
     internal BaseActor owner;
 
     private void OnTriggerEnter(Collider other)
@@ -21,22 +22,21 @@ public class Brick : MonoBehaviour
         {
             if (owner == null)
             {
-                Cache.GetActor(other).PushToStack(this);
+                owner = Cache.GetActor(other);
             }
-            else
-            {
-                owner.PushToStack(this);
-            }
+            
+            owner.PushToStack(this);
             ImmuneBrick();
         }
     }
 
-    public void InitBrick(int id, int order)
+    public void InitBrick(int id, int order, int stage)
     {
         this.id = id;
         orderPos = order;
+        this.stage = stage;
         gameObject.layer = LayerMask.NameToLayer(Constant.PLAYER_LAYER[id]);
-        owner = LevelManager.ins.GetActor(id);
+        //owner = LevelManager.ins.GetActor(id);
         mesh.material = MapManager.ins.matLists[id];
         bcol.enabled = true;
         scol.enabled = true;
@@ -60,5 +60,10 @@ public class Brick : MonoBehaviour
         rb.useGravity = true;
         rb.isKinematic = false;
         gameObject.layer = Constant.DEFAULT_LAYER;
+
+        if (!BrickSpawner.ins.brickLists[id].Contains(this))
+        {
+            BrickSpawner.ins.brickLists[id].Remove(this);
+        }
     }
 }

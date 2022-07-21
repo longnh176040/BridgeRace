@@ -19,12 +19,6 @@ public class PlayerController : BaseActor
     {
         base.Start();
         id = 0;
-
-        
-    }
-
-    void Update()
-    {
-        
+        currentStage = 1;
     }
 }
