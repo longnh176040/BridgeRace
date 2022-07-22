@@ -9,6 +9,8 @@ public class MapManager : MonoBehaviour
 
     public Material[] matLists;
 
+    public static Dictionary<int, Stage> stageDict = new Dictionary<int, Stage>();
+
     #region Singleton
     public static MapManager ins;
     public void Awake()
@@ -22,9 +24,17 @@ public class MapManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void SetupStageDictionary(Stage stage)
     {
-        
+        if (stageDict == null)
+        {
+            stageDict = new Dictionary<int, Stage>();
+        }
+
+        if (!stageDict.ContainsKey(stage.id))
+        {
+            stageDict.Add(stage.id, stage);
+        }
     }
 }

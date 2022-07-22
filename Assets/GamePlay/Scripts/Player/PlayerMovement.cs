@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public DynamicJoystick joystick;
 
     public Transform stepCheck;
-    public float stepHeight = 0.5f;
+    //public float stepHeight = 0.5f;
     public float stepOffset = 2f;
     private Transform lastHitGround;
     private float limitMinZPos = float.MinValue;
@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (lastHitGround == null) return;
                 Vector3 clampedPos = new Vector3(trans.position.x, 
-                    Mathf.Clamp(trans.position.y, lastHitGround.position.y - 0.5f, lastHitGround.position.y),
+                    Mathf.Clamp(trans.position.y, lastHitGround.position.y - 1f, lastHitGround.position.y),
                     Mathf.Clamp(trans.position.z, limitMinZPos, limitMaxZPos));
                 trans.position = clampedPos;
                 //Debug.Log("2");
@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (lastHitGround == null) return;
             Vector3 clampedPos = new Vector3(trans.position.x, 
-                Mathf.Clamp(trans.position.y, lastHitGround.position.y - 0.5f, lastHitGround.position.y),
+                Mathf.Clamp(trans.position.y, lastHitGround.position.y - 1f, lastHitGround.position.y),
                 Mathf.Clamp(trans.position.z, limitMinZPos, limitMaxZPos));
             trans.position = clampedPos;
             //Debug.Log("3");

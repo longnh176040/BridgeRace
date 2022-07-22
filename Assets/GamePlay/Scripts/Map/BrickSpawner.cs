@@ -141,8 +141,7 @@ public class BrickSpawner : MonoBehaviour
 
     public void DequeueUnuseBrick(int id, int stage)
     {
-        Brick[] unusedBrick = FindObjectsOfType<Brick>();
-        foreach (Brick b in unusedBrick)
+        foreach (Brick b in brickLists[id])
         {
             if (b.owner == null && b.id == id && b.stage == stage)
             {

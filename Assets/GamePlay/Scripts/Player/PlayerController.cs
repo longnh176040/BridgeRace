@@ -17,8 +17,8 @@ public class PlayerController : BaseActor
 
     private void Start()
     {
-        base.Start();
         id = 0;
         currentStage = 1;
+        base.Start();
     }
 }

@@ -45,7 +45,7 @@ public abstract class BaseActor : MonoBehaviour
         brick.trans.localEulerAngles = Vector3.zero;
         brick.trans.DOLocalMove(new Vector3(0, (brickStack.Count - 1) * brickHeight, 0), 0.5f);
         brick.trans.DOLocalRotate(new Vector3(0, 360f, 360f), 0.5f, RotateMode.FastBeyond360).SetEase(Ease.Linear);
-
+        brick.RemoveFromBrickList();
         CollectBrick(brick.id, brick.orderPos, currentStage);
     }
 
