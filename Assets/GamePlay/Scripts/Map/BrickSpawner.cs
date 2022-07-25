@@ -15,6 +15,8 @@ public class BrickSpawner : MonoBehaviour
     public List<List<Brick>> brickLists = new List<List<Brick>>(); //List những brick có trên map
     private int numBrickEachPlayer;
     private int[] brickCountEachPlayer;
+    private List<int> randPosAvailable = new List<int>();
+    private bool[] hasInitStage;
 
     private ObjectPooling objectPooling;
     private MapManager mapManager;
@@ -73,6 +75,8 @@ public class BrickSpawner : MonoBehaviour
             brickLists.Add(brickList);
         }
 
+        hasInitStage = new bool[3];
+
         Invoke(nameof(WaitToInitMap), 3f);
     }
 
@@ -110,32 +114,40 @@ public class BrickSpawner : MonoBehaviour
                 randPosArr.RemoveAt(rand);
             }
         }
+
+        hasInitStage[0] = true;
     }
 
     public void InitMapWithId(int playerId, int stage)
     {
-        List<int> randPosArr = new List<int>();
+        int numBrickEachPlayer = stageDict[stage].Item1.Length / mapManager.numberPlayer;
 
-        for (int i = 0; i < stageDict[stage].Item2.Count; i++)
+        if (!hasInitStage[stage-1])
         {
-            randPosArr.Add(i);
+            hasInitStage[stage-1] = true;
+            randPosAvailable.Clear();
+
+            for (int i = 0; i < stageDict[stage].Item2.Count; i++)
+            {
+                randPosAvailable.Add(i);
+            }
         }
 
         int rand = -1;
         for (int j = 0; j < numBrickEachPlayer; j++)
         {
-            if (randPosArr.Count > 1)
+            if (randPosAvailable.Count > 1)
             {
-                rand = Random.Range(0, randPosArr.Count);
+                rand = Random.Range(0, randPosAvailable.Count);
             }
             else
             {
                 rand = 0;
             }
-            SpawnBrick(playerId, randPosArr[rand], stage);
+            SpawnBrick(playerId, randPosAvailable[rand], stage);
 
             brickCountEachPlayer[playerId]--;
-            randPosArr.RemoveAt(rand);
+            randPosAvailable.RemoveAt(rand);
         }
     }
 

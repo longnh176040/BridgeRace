@@ -15,6 +15,7 @@ public abstract class BaseActor : MonoBehaviour
     internal int currentStage;
 
     private float brickHeight = 0.35f;
+    internal bool[] hasFinishedStage = new bool[3]; //3 tương ứng với số stage
 
     public Animator anim;
     protected int animState;
@@ -51,17 +52,21 @@ public abstract class BaseActor : MonoBehaviour
 
     public void PopFromStack()
     {
-        Brick brick = brickStack.Pop();
-        brick.trans.parent = null;
-        brick.trans.localEulerAngles = Vector3.zero;
-        brick.Reset();
-        ObjectPooling.ins.EnQueueObj(Constant.BRICK_TAG, brick.gameObject);
+        if (brickStack.Count > 0)
+        {
+            Brick brick = brickStack.Pop();
+            brick.trans.parent = null;
+            brick.trans.localEulerAngles = Vector3.zero;
+            brick.Reset();
+            ObjectPooling.ins.EnQueueObj(Constant.BRICK_TAG, brick.gameObject);
+        }
     }
 
     public void ClearStack()
     {
         foreach (Brick brick in brickStack)
         {
+            brick.RemoveFromBrickList();
             brick.trans.parent = null;
             brick.Reset();
         }

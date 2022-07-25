@@ -5,14 +5,15 @@ using UnityEngine;
 public class BridgeBrick : MonoBehaviour
 {
     public MeshRenderer meshRenderer;
+    public Collider col;
+    
+    [SerializeField]
+    internal int id; // = id của player tương ứng
+    internal Bridge onBridge;
 
-    void Start()
+    public void ChangeOwner(int id)
     {
-        
-    }
-
-    void Update()
-    {
-        
+        this.id = id;
+        meshRenderer.material = MapManager.ins.matLists[id];
     }
 }

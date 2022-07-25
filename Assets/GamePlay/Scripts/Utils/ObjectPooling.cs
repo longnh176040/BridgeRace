@@ -51,7 +51,7 @@ public class ObjectPooling : MonoBehaviour
             {
                 if (p.tag.Equals(tag))
                 {
-                    objToSpawn = Instantiate(p.prefab);
+                    objToSpawn = Instantiate(p.prefab, transform);
                     break;
                 }
                 else continue;
@@ -69,6 +69,7 @@ public class ObjectPooling : MonoBehaviour
     public void EnQueueObj(string tag, GameObject objToEnqueue)
     {
         poolDictionary[tag].Enqueue(objToEnqueue);
+        objToEnqueue.transform.SetParent(transform);
         objToEnqueue.SetActive(false);
     }
 }

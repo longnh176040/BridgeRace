@@ -88,7 +88,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84516950680066038}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -211,7 +211,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015501633635692756}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 7449488405527547276}
   - component: {fileID: 5673848376344699648}
   - component: {fileID: 1615760805198650773}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Bridge
   m_TagString: Bridge
   m_Icon: {fileID: 0}
@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetGround: {fileID: 0}
+  targetGroundCollider: {fileID: 0}
   bridgeBrickContainer: {fileID: 8489993022864647320}
 --- !u!1 &2069303598534059302
 GameObject:
@@ -378,7 +379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6434901489328854338
 Transform:
   m_ObjectHideFlags: 0
@@ -870,7 +871,7 @@ BoxCollider:
   m_GameObject: {fileID: 6434901490825610506}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 3.75, y: 1.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}

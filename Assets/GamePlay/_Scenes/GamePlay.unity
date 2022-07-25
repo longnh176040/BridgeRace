@@ -108,8 +108,8 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.25
     agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
+    agentSlope: 60
+    agentClimb: 1.5
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -2087,6 +2087,11 @@ PrefabInstance:
       propertyPath: targetGround
       value: 
       objectReference: {fileID: 1338622430}
+    - target: {fileID: 1615760805198650773, guid: 12813ed2734729c44aec5fd6caa3d606,
+        type: 3}
+      propertyPath: targetGroundCollider
+      value: 
+      objectReference: {fileID: 1338622431}
     - target: {fileID: 5709587499596124365, guid: 12813ed2734729c44aec5fd6caa3d606,
         type: 3}
       propertyPath: targetGround
@@ -3638,7 +3643,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 688771012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: -0.45, z: -10}
+  m_LocalPosition: {x: -2, y: -0.18, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1790738851819155354}
@@ -3664,6 +3669,9 @@ MonoBehaviour:
   transRotate: {fileID: 1790738851819155354}
   speed: 6
   joystick: {fileID: 1433261571}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 17
   stepCheck: {fileID: 1930073060}
   stepOffset: 2
   canMove: 0
@@ -4637,6 +4645,11 @@ PrefabInstance:
       propertyPath: targetGround
       value: 
       objectReference: {fileID: 2011800189}
+    - target: {fileID: 1615760805198650773, guid: 12813ed2734729c44aec5fd6caa3d606,
+        type: 3}
+      propertyPath: targetGroundCollider
+      value: 
+      objectReference: {fileID: 2011800190}
     - target: {fileID: 6434901490825610506, guid: 12813ed2734729c44aec5fd6caa3d606,
         type: 3}
       propertyPath: m_Name
@@ -4730,7 +4743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &843883317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4784,7 +4797,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843883316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -0.45, z: -10}
+  m_LocalPosition: {x: 2, y: -0.18, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 669899709}
@@ -4831,11 +4844,11 @@ MonoBehaviour:
   transRotate: {fileID: 669899709}
   agent: {fileID: 843883321}
   botState: 0
-  curTarget: {fileID: 0}
-  pickedBridgeId: -1
+  bridgeLayer:
+    serializedVersion: 2
+    m_Bits: 17
   stepCheck: {fileID: 1374275117}
   stepOffset: 2
-  currentBridgeTarget: {fileID: 0}
 --- !u!1 &854050018
 GameObject:
   m_ObjectHideFlags: 0
@@ -6922,6 +6935,11 @@ PrefabInstance:
       propertyPath: targetGround
       value: 
       objectReference: {fileID: 1338622430}
+    - target: {fileID: 1615760805198650773, guid: 12813ed2734729c44aec5fd6caa3d606,
+        type: 3}
+      propertyPath: targetGroundCollider
+      value: 
+      objectReference: {fileID: 1338622431}
     - target: {fileID: 5709587499596124365, guid: 12813ed2734729c44aec5fd6caa3d606,
         type: 3}
       propertyPath: targetGround
@@ -7011,6 +7029,11 @@ PrefabInstance:
       propertyPath: targetGround
       value: 
       objectReference: {fileID: 1657191551}
+    - target: {fileID: 1615760805198650773, guid: 12813ed2734729c44aec5fd6caa3d606,
+        type: 3}
+      propertyPath: targetGroundCollider
+      value: 
+      objectReference: {fileID: 1657191552}
     - target: {fileID: 6434901490825610506, guid: 12813ed2734729c44aec5fd6caa3d606,
         type: 3}
       propertyPath: m_Name
@@ -7915,6 +7938,11 @@ PrefabInstance:
       propertyPath: targetGround
       value: 
       objectReference: {fileID: 1338622430}
+    - target: {fileID: 1615760805198650773, guid: 12813ed2734729c44aec5fd6caa3d606,
+        type: 3}
+      propertyPath: targetGroundCollider
+      value: 
+      objectReference: {fileID: 1338622431}
     - target: {fileID: 5709587499596124365, guid: 12813ed2734729c44aec5fd6caa3d606,
         type: 3}
       propertyPath: targetGround
@@ -8223,7 +8251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1570956459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1104785581}
@@ -10016,7 +10044,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930073059}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 688771013}
@@ -10640,6 +10668,11 @@ PrefabInstance:
       propertyPath: targetGround
       value: 
       objectReference: {fileID: 1338622430}
+    - target: {fileID: 1615760805198650773, guid: 12813ed2734729c44aec5fd6caa3d606,
+        type: 3}
+      propertyPath: targetGroundCollider
+      value: 
+      objectReference: {fileID: 1338622431}
     - target: {fileID: 5709587499596124365, guid: 12813ed2734729c44aec5fd6caa3d606,
         type: 3}
       propertyPath: targetGround
@@ -10729,6 +10762,11 @@ PrefabInstance:
       propertyPath: targetGround
       value: 
       objectReference: {fileID: 1657191551}
+    - target: {fileID: 1615760805198650773, guid: 12813ed2734729c44aec5fd6caa3d606,
+        type: 3}
+      propertyPath: targetGroundCollider
+      value: 
+      objectReference: {fileID: 1657191552}
     - target: {fileID: 6434901490825610506, guid: 12813ed2734729c44aec5fd6caa3d606,
         type: 3}
       propertyPath: m_Name

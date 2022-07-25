@@ -5,13 +5,14 @@ using UnityEngine;
 public class Bridge : MonoBehaviour
 {
     public Transform targetGround;
+    public Collider targetGroundCollider;
     public Transform bridgeBrickContainer;
 
     internal int maxBrick = 60;
-    internal List<BridgeBrick> bridgeBrickList = new List<BridgeBrick>();
 
-    internal bool isBuilt = false;
-    private int currentBrickNum = 0;
+    internal Dictionary<Collider, BridgeBrick> bridgeBrickDict = new Dictionary<Collider, BridgeBrick>();
+
+    internal int currentBrickNum = 0;
 
     private const float BRICK_DISTANCE_Y = 0.1f;
     private const float BRICK_DISTANCE_Z = 0.5f;
@@ -39,9 +40,11 @@ public class Bridge : MonoBehaviour
         if (currentBrickNum >= maxBrick - 1) return;
 
         BridgeBrick bridgeBrick = objectPooling.SpawnFromPool(Constant.BRIDGE_BRICK_TAG).GetComponent<BridgeBrick>();
+        bridgeBrick.id = playerId;
         bridgeBrick.meshRenderer.material = mapManager.matLists[playerId];
+        bridgeBrick.onBridge = this;
 
-        bridgeBrickList.Add(bridgeBrick);
+        bridgeBrickDict.Add(bridgeBrick.col, bridgeBrick);
 
         Transform brickTf = bridgeBrick.transform;
         brickTf.SetParent(bridgeBrickContainer);

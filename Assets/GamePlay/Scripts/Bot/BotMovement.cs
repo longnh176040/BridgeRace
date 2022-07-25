@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class BotMovement : MonoBehaviour
 {
@@ -11,23 +12,22 @@ public class BotMovement : MonoBehaviour
     public NavMeshAgent agent;
 
     public Bot_State botState;
+    public LayerMask bridgeLayer;
 
-    [SerializeField]
     internal Transform curTarget;
     private float closeThreshold = 1f;
 
-    [SerializeField]
     internal int pickedBridgeId = -1;
     public Transform stepCheck;
     public float stepOffset = 2f;
     private Stage currentStage;
-    [SerializeField]
+    private float onBridgeY = 0.86f;
+
     private Transform currentBridgeTarget;
-    //private Transform lastHitGround;
-    private float limitMinZPos = float.MinValue;
-    private float limitMaxZPos = float.MaxValue;
+    private Bridge curBridge;
 
     internal bool isOnBridge = false;
+    private bool hasNormalizedY = false;
 
     void Start()
     {
@@ -45,7 +45,13 @@ public class BotMovement : MonoBehaviour
             OnBridge();
         }
         FaceTarget();
+        
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    Debug.Log(collision.gameObject.name);
+    //}
 
     #region Collect
     public void FindRandomBrick()
@@ -79,17 +85,19 @@ public class BotMovement : MonoBehaviour
     void MoveToTarget()
     {
         isOnBridge = false;
+        if (hasNormalizedY)
+        {
+            OnGroundCheck();
+        }
 
         if (curTarget != null)
         {
             if ((curTarget.position - trans.position).sqrMagnitude < closeThreshold)
             {
-                //Debug.Log("789");
                 FindRandomBrick();
             }
             else
             {
-                //Debug.Log("000");
                 agent.SetDestination(curTarget.position);
             }
         }
@@ -107,26 +115,34 @@ public class BotMovement : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transRotate.rotation = Quaternion.Slerp(transRotate.rotation, lookRotation, Time.deltaTime * 5);
     }
+
+    private void OnGroundCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(stepCheck.position, trans.TransformDirection(Vector3.down), out hit, Mathf.Infinity, bridgeLayer))
+        {
+            if (hit.transform.CompareTag(Constant.GROUND_TAG))
+            {
+                hasNormalizedY = false;
+                transRotate.DOLocalMove(Vector3.zero, 0.5f);
+            }
+        }
+    }
     #endregion
 
     #region OnBridge
     void OnBridge()
     {
-        //if (pickedBridgeId == -1)
-        //{
-        //    ChooseBridge();
-        //}
-        //else
-        //{
-            CheckSpawnBridge();
-            MoveOnBridge();
+        CheckSpawnBridge();
+        MoveOnBridge();
+        if (!hasNormalizedY)
+        {
             ClimbBridge();
-        //}
+        }
     }
 
     void ChooseBridge()
     {
-        Debug.Log("Get new bridge");
         currentStage = MapManager.stageDict[actor.currentStage];
 
         float rand;
@@ -171,49 +187,66 @@ public class BotMovement : MonoBehaviour
     private void CheckSpawnBridge()
     {
         RaycastHit hit;
-        if (Physics.Raycast(stepCheck.position, Vector3.down, out hit, Mathf.Infinity))
+        if (Physics.Raycast(stepCheck.position, Vector3.down, out hit, Mathf.Infinity, bridgeLayer))
         {
             if (hit.transform.CompareTag(Constant.BRIDGE_TAG))
             {
-                Debug.Log("hit bridge");
-
                 isOnBridge = true;
-                Bridge b = Cache.GetBridge(hit.collider);
+                curBridge = Cache.GetBridge(hit.collider);
 
-                if (actor.GetStackNum() > 0 && !b.CheckBuildDone())
+                if (actor.GetStackNum() > 0 && !curBridge.CheckBuildDone())
                 {
-                    b.SpawnBridgeBrick(actor.id);
+                    curBridge.SpawnBridgeBrick(actor.id);
                     actor.PopFromStack();
                 }
-                else if (b.CheckBuildDone())
+                else if (curBridge.CheckBuildDone())
                 {
-                    if (!b.isBuilt)
+                    if (!actor.hasFinishedStage[actor.currentStage])
                     {
+                        actor.hasFinishedStage[actor.currentStage] = true;
+
                         pickedBridgeId = -1;
 
-                        float targetGroundSize = b.targetGround.GetComponent<Collider>().bounds.size.z / 2;
-                        limitMaxZPos = float.MaxValue;
-                        limitMinZPos = b.targetGround.position.z - targetGroundSize + 0.25f;
-
-                        b.isBuilt = true;
                         BrickSpawner.ins.DequeueUnuseBrick(actor.id, actor.currentStage);
+
                         actor.currentStage++;
+                        ChooseBridge();
                         BrickSpawner.ins.InitMapWithId(actor.id, actor.currentStage);
                         ChangeState(Bot_State.Collect);
+                        FindRandomBrick();
                         StartCoroutine(IE_ChangeOnBridgeState());
+                        //Debug.Log("===============Build done===============");
                     }
                 }
                 else if (actor.GetStackNum() == 0) {
                     if (botState == Bot_State.OnBridge)
                     {
                         ChangeState(Bot_State.Collect);
+                        FindRandomBrick();
                         StartCoroutine(IE_ChangeOnBridgeState());
                     }
                 }
             }
-            else
+            else if (hit.transform.CompareTag(Constant.BRIDGE_BRICK_TAG))
             {
-                Debug.Log("hit " + hit.transform.name);
+                //CheckOwner
+                curBridge = hit.transform.GetComponent<BridgeBrick>().onBridge;
+                BridgeBrick bridgeBrick = curBridge.bridgeBrickDict[hit.collider];
+
+                if (actor.GetStackNum() > 0 && bridgeBrick.id != actor.id)
+                {
+                    bridgeBrick.ChangeOwner(actor.id);
+                    actor.PopFromStack();
+                }
+                else if (actor.GetStackNum() <= 0)
+                {
+                    if (botState == Bot_State.OnBridge)
+                    {
+                        ChangeState(Bot_State.Collect);
+                        FindRandomBrick();
+                        StartCoroutine(IE_ChangeOnBridgeState());
+                    }
+                }
             }
         }
     }
@@ -221,48 +254,20 @@ public class BotMovement : MonoBehaviour
     private void ClimbBridge()
     {
         RaycastHit hit;
-        if (Physics.Raycast(stepCheck.position, trans.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
+        if (Physics.Raycast(stepCheck.position, trans.TransformDirection(Vector3.down), out hit, Mathf.Infinity, bridgeLayer))
         {
             if (hit.transform.CompareTag(Constant.BRIDGE_BRICK_TAG))
             {
-                //lastHitGround = hit.transform;
-                trans.position += new Vector3(0f, stepOffset * Time.fixedDeltaTime, 0f);
-
-                if (actor.GetStackNum() == 0)
-                {
-                    limitMaxZPos = hit.transform.position.z + hit.collider.bounds.size.z / 2;
-                    Vector3 clampedPos = new Vector3(trans.position.x,
-                        Mathf.Clamp(trans.position.y, hit.transform.position.y + hit.collider.bounds.size.y/2, hit.transform.position.y),
-                        Mathf.Clamp(trans.position.z, limitMinZPos, limitMaxZPos));
-                    trans.position = clampedPos;
-
-                    //Vector3 height = new Vector3(0, hit.transform.position.y + hit.collider.bounds.size.y / 2, 0);
-                    //transRotate.position = height;
-                    Debug.Log("1");
-                }
+                hasNormalizedY = true;
+                transRotate.DOLocalMove(new Vector3(0, onBridgeY, 0), 0.5f);
             }
-            //else if (hit.transform.CompareTag(Constant.GROUND_TAG))
-            //{
-            //    trans.position = Vector3.zero;
-            //}
         }
     }
-
-    //void OnDrawGizmos()
-    //{
-    //    RaycastHit hit;
-    //    if (Physics.Raycast(stepCheck.position, trans.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
-    //    {
-    //        Gizmos.color = Color.red;
-    //        Vector3 direction = trans.TransformDirection(Vector3.down) * Mathf.Infinity;
-    //        Gizmos.DrawRay(stepCheck.position, direction);
-    //    }
-    //}
     #endregion
 
     IEnumerator IE_ChangeOnBridgeState()
     {
-        yield return Yielders.Get(Random.Range(5f, 10f));
+        yield return Yielders.Get(Random.Range(8f, 20f));
 
         if (actor.GetStackNum() != 0)
         {
@@ -275,7 +280,6 @@ public class BotMovement : MonoBehaviour
 
             currentBridgeTarget = currentStage.bridge[pickedBridgeId];
             agent.SetDestination(currentBridgeTarget.position);
-            Debug.Log("111111111");
         }
         else
         {
