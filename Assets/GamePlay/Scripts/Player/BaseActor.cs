@@ -12,6 +12,7 @@ public abstract class BaseActor : MonoBehaviour
     public static UnityAction<int, int, int> CollectBrick;
 
     protected Stack<Brick> brickStack = new Stack<Brick>();
+    [SerializeField]
     internal int currentStage;
 
     private float brickHeight = 0.35f;
@@ -23,6 +24,11 @@ public abstract class BaseActor : MonoBehaviour
     protected void Start()
     {
         LevelManager.ins.SetupActorDictionary(this);
+    }
+
+    public virtual void OnTriggerEnter(Collider other)
+    {
+        
     }
 
     public void SetAnim(int state)

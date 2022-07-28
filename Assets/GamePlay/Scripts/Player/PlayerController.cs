@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : BaseActor
 {
-    public bool isDie;
+    public bool isWin;
 
     #region Singleton
     public static PlayerController ins;

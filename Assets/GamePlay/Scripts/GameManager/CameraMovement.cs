@@ -11,7 +11,7 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!PlayerController.ins.isDie)
+        if (!PlayerController.ins.isWin)
         {
             mainCamera.position = player.trans.position - offset;
             mainCamera.LookAt(player.trans.position + Vector3.up);

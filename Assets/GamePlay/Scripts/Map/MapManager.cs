@@ -19,11 +19,6 @@ public class MapManager : MonoBehaviour
     }
     #endregion
 
-    void Start()
-    {
-        
-    }
-
 
     public void SetupStageDictionary(Stage stage)
     {
