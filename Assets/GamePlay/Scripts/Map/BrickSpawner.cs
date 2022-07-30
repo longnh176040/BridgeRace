@@ -75,7 +75,7 @@ public class BrickSpawner : MonoBehaviour
             brickLists.Add(brickList);
         }
 
-        hasInitStage = new bool[3];
+        hasInitStage = new bool[Constant.STAGE_NUM];
 
         Invoke(nameof(WaitToInitMap), 3f);
     }
@@ -83,6 +83,7 @@ public class BrickSpawner : MonoBehaviour
     private void WaitToInitMap()
     {
         InitMap(mapManager.numberPlayer, 1);
+        PlayerController.ins.playerMovement.canMove = true;
     }
 
     public void InitMap(int numPlayer, int stage)
@@ -120,6 +121,8 @@ public class BrickSpawner : MonoBehaviour
 
     public void InitMapWithId(int playerId, int stage)
     {
+        brickLists[playerId].Clear();
+
         int numBrickEachPlayer = stageDict[stage].Item1.Length / mapManager.numberPlayer;
 
         if (!hasInitStage[stage-1])

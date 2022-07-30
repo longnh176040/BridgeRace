@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : BaseActor
 {
-    public bool isWin;
+    public PlayerMovement playerMovement;
 
     #region Singleton
     public static PlayerController ins;
@@ -20,5 +20,19 @@ public class PlayerController : BaseActor
         id = 0;
         currentStage = 1;
         base.Start();
+    }
+
+    public void SetWin(int rank)
+    {
+        playerMovement.canMove = false;
+        playerMovement.rb.isKinematic = true;
+        ClearWinStack();
+
+        Transform winTrans = MapManager.ins.winPos[rank];
+        Vector3 winPos = new Vector3(winTrans.position.x, playerMovement.trans.position.y, winTrans.position.z);
+        playerMovement.trans.position = winPos;
+        playerMovement.transRotate.localEulerAngles = Vector3.up * 180f;
+
+        SetAnim(Constant.WIN_ANIM);
     }
 }

@@ -18,6 +18,7 @@ public static class Constant
     public const string GROUND_TAG = "Ground";
     public const string FINISH_TAG = "Finish";
 
+    public const int STAGE_NUM = 3;
     public const int DEFAULT_LAYER = 0;
     public static string[] PLAYER_LAYER = new string[6] { "Player1", "Player2", "Player3", "Player4", "Player5", "Player6", };
 

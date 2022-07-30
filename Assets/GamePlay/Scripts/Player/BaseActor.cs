@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public abstract class BaseActor : MonoBehaviour
 {
     internal int id;
+    internal bool isWin;
 
     public Transform brickContainer;
     public static UnityAction<int, int, int> CollectBrick;
@@ -26,10 +27,8 @@ public abstract class BaseActor : MonoBehaviour
         LevelManager.ins.SetupActorDictionary(this);
     }
 
-    public virtual void OnTriggerEnter(Collider other)
-    {
-        
-    }
+    //public virtual void OnTriggerEnter(Collider other)
+    //{ }
 
     public void SetAnim(int state)
     {
@@ -75,6 +74,22 @@ public abstract class BaseActor : MonoBehaviour
             brick.RemoveFromBrickList();
             brick.trans.parent = null;
             brick.Reset();
+        }
+        brickStack.Clear();
+    }
+
+    public void ClearWinStack()
+    {
+        foreach (Brick brick in brickStack)
+        {
+            brick.RemoveFromBrickList();
+            brick.trans.parent = null;
+            brick.LiableBrick();
+
+            Vector3 forceDir = new Vector3(Random.Range(-8f, 8f), Random.Range(5f, 10f), Random.Range(-8f, 8f));
+            brick.rb.AddForce(forceDir.normalized * Random.Range(500f, 1000f), ForceMode.Force);
+            brick.rb.AddTorque(transform.up * 100f * Random.Range(-1, 1));
+            Destroy(brick.gameObject, 5f);
         }
         brickStack.Clear();
     }

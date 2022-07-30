@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    internal bool HaveWin = false;
+
     private Dictionary<int, BaseActor> actorDictionary;
 
     #region Singleton
@@ -16,7 +18,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        
+        HaveWin = false;
     }
 
     public void SetupActorDictionary(BaseActor actor)
@@ -40,4 +42,5 @@ public class LevelManager : MonoBehaviour
         }
         return null;
     }
+
 }

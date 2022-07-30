@@ -61,6 +61,14 @@ public class Brick : MonoBehaviour
         rb.isKinematic = true;
     }
 
+    public void LiableBrick()
+    {
+        bcol.enabled = true;
+        scol.enabled = true;
+        rb.useGravity = true;
+        rb.isKinematic = false;
+    }
+
     public void Reset()
     {
         bcol.enabled = true;
@@ -71,6 +79,7 @@ public class Brick : MonoBehaviour
         rb.isKinematic = false;
         gameObject.layer = Constant.DEFAULT_LAYER;
         RemoveFromBrickList();
+        id = -1;
     }
 
     public void RemoveFromBrickList()

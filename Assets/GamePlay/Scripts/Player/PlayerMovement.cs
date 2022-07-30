@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform trans;
     public Transform transRotate;
     public float speed;
+    internal bool canMove = false;
 
     public DynamicJoystick joystick;
 
@@ -21,11 +22,11 @@ public class PlayerMovement : MonoBehaviour
     private float limitMaxZPos;
     private Bridge curBridge;
 
-    [SerializeField]
-    private bool canMove = false;
 
     void Update()
     {
+        if (!canMove) return;
+
         if (joystick.Horizontal != 0 || joystick.Vertical != 0)
         {
             actor.SetAnim(Constant.RUN_ANIM);
@@ -42,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!canMove) return;
+
         CheckSpawnBridge();
         ClimbBridge();
     }
@@ -65,12 +68,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else if (curBridge.CheckBuildDone())
                 {
-                    if (actor.currentStage == 4)
-                    {
-                        actor.isWin = true;
-                        return;
-                    }
-                    else if (!actor.hasFinishedStage[actor.currentStage-1])
+                    if (!actor.hasFinishedStage[actor.currentStage-1])
                     {
                         actor.hasFinishedStage[actor.currentStage-1] = true;
                         float targetGroundSize = curBridge.targetGroundCollider.bounds.size.z / 2;
@@ -79,6 +77,17 @@ public class PlayerMovement : MonoBehaviour
 
                         BrickSpawner.ins.DequeueUnuseBrick(actor.id, actor.currentStage);
                         actor.currentStage++;
+
+                        if (actor.currentStage > Constant.STAGE_NUM)
+                        {
+                            actor.isWin = true;
+                            if (!LevelManager.ins.HaveWin)
+                            {
+                                actor.SetWin(0);
+                            }
+                            return;
+                        }
+
                         BrickSpawner.ins.InitMapWithId(actor.id, actor.currentStage);
                     }
                 }
@@ -155,10 +164,5 @@ public class PlayerMovement : MonoBehaviour
                 Mathf.Clamp(trans.position.z, limitMinZPos, limitMaxZPos));
             trans.position = clampedPos;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        
     }
 }

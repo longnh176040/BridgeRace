@@ -7,6 +7,8 @@ public class MapManager : MonoBehaviour
     [Range(2, 6)]
     public int numberPlayer;
 
+    public Transform[] winPos;
+
     public Material[] matLists;
 
     public static Dictionary<int, Stage> stageDict = new Dictionary<int, Stage>();
